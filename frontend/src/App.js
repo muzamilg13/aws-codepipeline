@@ -14,7 +14,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>{message || "Loading..."}</p>
+        <p>{message || "WELCOME TO RTC"}</p>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
