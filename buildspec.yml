@@ -36,3 +36,10 @@ phases:
       - docker push $BACKEND_REPO_URI:latest
 
       - echo Build completed successfully.
+
+artifacts:
+  files:
+    - appspec.yml
+    - compose.prod.yaml
+    - scripts/**/*
+    - db/**/*
