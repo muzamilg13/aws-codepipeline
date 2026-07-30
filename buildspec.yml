@@ -1,0 +1,38 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+      - REGION=$AWS_DEFAULT_REGION
+
+      - FRONTEND_REPO_NAME=react-express-frontend
+      - BACKEND_REPO_NAME=react-express-backend
+
+      - FRONTEND_REPO_URI=$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$FRONTEND_REPO_NAME
+      - BACKEND_REPO_URI=$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$BACKEND_REPO_NAME
+
+      - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
+
+  build:
+    commands:
+      - echo Building frontend image...
+      - docker build -t $FRONTEND_REPO_NAME:latest ./frontend
+
+      - echo Building backend image...
+      - docker build -t $BACKEND_REPO_NAME:latest ./backend
+
+      - docker tag $FRONTEND_REPO_NAME:latest $FRONTEND_REPO_URI:latest
+      - docker tag $BACKEND_REPO_NAME:latest $BACKEND_REPO_URI:latest
+
+  post_build:
+    commands:
+      - echo Pushing frontend...
+      - docker push $FRONTEND_REPO_URI:latest
+
+      - echo Pushing backend...
+      - docker push $BACKEND_REPO_URI:latest
+
+      - echo Build completed successfully.
