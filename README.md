@@ -93,6 +93,8 @@ Stopping react-express-mysql_backend_1  ... done
 Stopping react-express-mysql_db_1       ... done
 Removing react-express-mysql_frontend_1 ... done
 Removing react-express-mysql_backend_1  ... done
+
+hi
 Removing react-express-mysql_db_1       ... done
 Removing network react-express-mysql_default
 
